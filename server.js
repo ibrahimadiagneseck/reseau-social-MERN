@@ -1,6 +1,6 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-// const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser'); // req.body
+const cookieParser = require('cookie-parser'); // req.cookies
 const userRoutes = require('./routes/user.routes');
 // const userRoutes = require('./routes/userRoutes');
 // const postRoutes = require('./routes/post.routes');
@@ -10,7 +10,8 @@ require('dotenv').config({
 });
 
 require('./config/db');
-// const {checkUser, requireAuth} = require('./middleware/auth.middleware');
+
+const {checkUser, requireAuth} = require('./middleware/auth.middleware');
 // const cors = require('cors');
 
 const app = express();
@@ -27,13 +28,13 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(cookieParser());
+app.use(cookieParser());
 
 // jwt
-// app.get('*', checkUser);
-// app.get('/jwtid', requireAuth, (req, res) => {
-//   res.status(200).send(res.locals.user._id)
-// });
+app.get('*', checkUser); // à n'importe quel route, verrifier si l'utilisateur a le token  
+app.get('/jwtid', requireAuth, (req, res) => {
+  res.status(200).send(res.locals.user._id)
+});
 
 // routes
 app.use('/api/user', userRoutes);

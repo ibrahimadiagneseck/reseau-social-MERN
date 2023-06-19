@@ -8,7 +8,8 @@
 <!-- npm i -s body-parser -->
 <!-- npm i -s validator -->
 <!-- npm i -s bcrypt -->
-
+<!-- npm i -s jsonwebtoken -->
+<!-- npm i -s cookie-parser -->
 
 
 
@@ -21,7 +22,8 @@
 <!-- 
     .env{
         PORT=5000
-        DB_USER_PASS=ibrahimadiagneseck:i2b5r1a0h1i9m9a9
+        DB_USER_PASS=ibrahimadiagneseck:i2b5r1a0h1i9m9a9ss
+        TOKEN_SECRET=ibrahimadiagnesecki2b5r1a0h1i9m9a9ibrahimadiagnesecki2b5r1a0h1i9m9a9ibrahimadiagnesecki2b5r1a0h1i9m9a9ss
     }
 
  -->
