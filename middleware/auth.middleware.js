@@ -36,15 +36,16 @@ module.exports.requireAuth = (req, res, next) => {
 
       if (err) {
         console.log(err);
-        res.send(200).json('no token')
+        res.send(200).json('no token'); // Si une erreur survient lors de la vérification du jeton, renvoie une réponse indiquant l'absence de jeton
       } else {
-        console.log(decodedToken.id); // log
-        next();
+        console.log(decodedToken.id); // Log de l'identifiant extrait du jeton
+        next(); // Passe à l'étape suivante du middleware
       }
 
     });
 
   } else {
-    console.log('No token');
+    console.log('No token'); // Si aucun jeton n'est présent, affiche "No token" dans la console
   }
 };
+

@@ -27,7 +27,7 @@ const PostSchema = new mongoose.Schema(
           commenterId:String,
           commenterPseudo: String,
           text: String,
-          timestamp: Number,
+          timestamp: Number
         }
       ],
       required: true,
@@ -38,4 +38,7 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('post', PostSchema);
+const PostModel = mongoose.model('post', PostSchema);
+module.exports = PostModel;
+
+// module.exports = mongoose.model('post', PostSchema);

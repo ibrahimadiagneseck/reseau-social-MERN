@@ -1,6 +1,6 @@
 const UserModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
-// const { signUpErrors, signInErrors } = require('../utils/errors.utils');
+const { signUpErrors, signInErrors } = require('../utils/errors.utils');
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
 
@@ -10,18 +10,22 @@ const createToken = (id) => {
   })
 };
 
-// module.exports.signUp = async (req, res) => {
-//   const {pseudo, email, password} = req.body
 
-//   try {
-//     const user = await UserModel.create({pseudo, email, password });
-//     res.status(201).json({ user: user._id});
-//   }
-//   catch(err) {
-//     const errors = signUpErrors(err);
-//     res.status(200).send({ errors })
-//   }
-// }
+module.exports.signUp = async (req, res) => {
+  const {pseudo, email, password} = req.body
+
+  try {
+    const user = await UserModel.create({pseudo, email, password });
+    res.status(201).json({ user: user._id});
+  }
+  catch(err) {
+    const errors = signUpErrors(err);
+    res.status(200).send({ errors });
+
+    // res.status(200).json({ err });
+  }
+}
+
 
 module.exports.signIn = async (req, res) => {
   const { email, password } = req.body
@@ -32,17 +36,19 @@ module.exports.signIn = async (req, res) => {
     res.cookie('jwt', token, { httpOnly: true, maxAge});
     res.status(200).json({ user: user._id})
   } catch (err){
-    // const errors = signInErrors(err);
-    // res.status(200).json({ errors });
+    const errors = signInErrors(err);
+    res.status(200).json({ errors });
 
-    res.status(200).json({ err });
+    // res.status(200).json({ err });
   }
 }
+
 
 module.exports.logout = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/');
 }
+
 
 // const registerUser = async (req, res) => {
 
@@ -64,20 +70,6 @@ module.exports.logout = (req, res) => {
 //         }
 //     }
 
-// }
+// };
 
-module.exports.signUp = async (req, res) => {
 
-    const {
-        pseudo,
-        email,
-        password
-    } = req.body;
-
-    try {
-        const user = await UserModel.create({ pseudo, email, password });
-        res.status(201).json({ user: user._id });
-    } catch (error) {
-        res.status(400).send({ error })
-    }
-}

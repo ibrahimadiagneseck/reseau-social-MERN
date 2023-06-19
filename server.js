@@ -1,9 +1,10 @@
 const express = require('express');
+
 const bodyParser = require('body-parser'); // req.body
 const cookieParser = require('cookie-parser'); // req.cookies
+
 const userRoutes = require('./routes/user.routes');
-// const userRoutes = require('./routes/userRoutes');
-// const postRoutes = require('./routes/post.routes');
+const postRoutes = require('./routes/post.routes');
 
 require('dotenv').config({
     path: './config/.env'
@@ -38,7 +39,7 @@ app.get('/jwtid', requireAuth, (req, res) => {
 
 // routes
 app.use('/api/user', userRoutes);
-// app.use('/api/post', postRoutes);
+app.use('/api/post', postRoutes);
 
 // server : app.listen "en dernier place"
 app.listen(process.env.PORT, () => {

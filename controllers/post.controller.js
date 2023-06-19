@@ -1,50 +1,60 @@
-const postModel = require("../models/post.model");
 const PostModel = require("../models/post.model");
 const UserModel = require("../models/user.model");
 const { uploadErrors } = require("../utils/errors.utils");
 const ObjectID = require("mongoose").Types.ObjectId;
-const fs = require("fs");
-const { promisify } = require("util");
-const pipeline = promisify(require("stream").pipeline);
+// const fs = require("fs");
+// const { promisify } = require("util");
+// const pipeline = promisify(require("stream").pipeline);
 
-module.exports.readPost = (req, res) => {
-  PostModel.find((err, docs) => {
-    if (!err) res.send(docs);
-    else console.log("Error to get data : " + err);
-  }).sort({ createdAt: -1 });
+// module.exports.readPost = (req, res) => { // error
+//   PostModel.find((err, docs) => {
+//     if (!err) res.send(docs);
+//     else console.log("Error to get data : " + err);
+//   }).sort({ createdAt: -1 });
+// };
+
+module.exports.readPost = async (req, res) => {
+  try {
+    const docs = await PostModel.find().sort({ createdAt: -1 });
+    res.send(docs);
+  } catch (err) {
+    console.log("Error to get data: " + err);
+    res.status(500).send("Internal Server Error");
+  }
 };
 
+
 module.exports.createPost = async (req, res) => {
-  let fileName;
+  // let fileName;
 
-  if (req.file !== null) {
-    try {
-      if (
-        req.file.detectedMimeType != "image/jpg" &&
-        req.file.detectedMimeType != "image/png" &&
-        req.file.detectedMimeType != "image/jpeg"
-      )
-        throw Error("invalid file");
+  // if (req.file !== null) {
+  //   try {
+  //     if (
+  //       req.file.detectedMimeType != "image/jpg" &&
+  //       req.file.detectedMimeType != "image/png" &&
+  //       req.file.detectedMimeType != "image/jpeg"
+  //     )
+  //       throw Error("invalid file");
 
-      if (req.file.size > 500000) throw Error("max size");
-    } catch (err) {
-      const errors = uploadErrors(err);
-      return res.status(201).json({ errors });
-    }
-    fileName = req.body.posterId + Date.now() + ".jpg";
+  //     if (req.file.size > 500000) throw Error("max size");
+  //   } catch (err) {
+  //     const errors = uploadErrors(err);
+  //     return res.status(201).json({ errors });
+  //   }
+  //   fileName = req.body.posterId + Date.now() + ".jpg";
 
-    await pipeline(
-      req.file.stream,
-      fs.createWriteStream(
-        `${__dirname}/../client/public/uploads/posts/${fileName}`
-      )
-    );
-  }
+  //   await pipeline(
+  //     req.file.stream,
+  //     fs.createWriteStream(
+  //       `${__dirname}/../client/public/uploads/posts/${fileName}`
+  //     )
+  //   );
+  // }
 
-  const newPost = new postModel({
+  const newPost = new PostModel({
     posterId: req.body.posterId,
     message: req.body.message,
-    picture: req.file !== null ? "./uploads/posts/" + fileName : "",
+    // picture: req.file !== null ? "./uploads/posts/" + fileName : "",
     video: req.body.video,
     likers: [],
     comments: [],
@@ -58,24 +68,29 @@ module.exports.createPost = async (req, res) => {
   }
 };
 
-module.exports.updatePost = (req, res) => {
-  if (!ObjectID.isValid(req.params.id))
-    return res.status(400).send("ID unknown : " + req.params.id);
 
-  const updatedRecord = {
-    message: req.body.message,
-  };
+module.exports.updatePost = async (req, res) => {
+  try {
+    if (!ObjectID.isValid(req.params.id))
+      return res.status(400).send("ID unknown : " + req.params.id);
 
-  PostModel.findByIdAndUpdate(
-    req.params.id,
-    { $set: updatedRecord },
-    { new: true },
-    (err, docs) => {
-      if (!err) res.send(docs);
-      else console.log("Update error : " + err);
-    }
-  );
+    const updatedRecord = {
+      message: req.body.message,
+    };
+
+    const updatedPost = await PostModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: updatedRecord },
+      { new: true }
+    );
+
+    res.send(updatedPost);
+  } catch (err) {
+    console.log("Update error: " + err);
+    res.status(500).send("Internal Server Error");
+  }
 };
+
 
 module.exports.deletePost = (req, res) => {
   if (!ObjectID.isValid(req.params.id))
