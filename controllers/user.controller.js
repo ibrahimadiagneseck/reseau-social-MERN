@@ -2,7 +2,7 @@ const UserModel = require("../models/user.model");
 const ObjectID = require("mongoose").Types.ObjectId;
 
 module.exports.getAllUsers = async (req, res) => {
-  const users = await UserModel.find().select("-password");
+  const users = await UserModel.find().select("-password"); //,tous sauf le password
   res.status(200).json(users);
 };
 
@@ -32,7 +32,7 @@ module.exports.userInfo = (req, res) => {
 };
 
 module.exports.updateUser = async (req, res) => {
-  if (!ObjectID.isValid(req.params.id))
+  if (!ObjectID.isValid(req.params.id)) // ObjectID : si l'id n'est pas dans la bd
     return res.status(400).send("ID unknown : " + req.params.id);
 
   try {

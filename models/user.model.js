@@ -41,22 +41,22 @@ const userSchema = new mongoose.Schema(
       type: [String]
     },
     likes: {
-      type: [String]
+      type: [String] // les postes likés
     }
   },
   {
-    timestamps: true,
+    timestamps: true // date à la quelle l'utilisateur s'est enregistré
   }
 );
 
 // play function before save into display: 'block',
 userSchema.pre("save", async function(next) {
   const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt); // this : sans fonction fleche
+  this.password = await bcrypt.hash(this.password, salt); // this : fonctionne sans la fonction fleche
   next();
 });
 
-// comparer les mots de passe pour se loger 
+// comparer les mots de passe pour se loger
 userSchema.statics.login = async function(email, password) {
   const user = await this.findOne({ email });
   if (user) {

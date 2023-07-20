@@ -27,6 +27,8 @@ const app = express();
 // }
 // app.use(cors(corsOptions));
 
+
+// bodyParser : pour traiter les donnees dans les requetes
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
@@ -41,6 +43,7 @@ app.get('/jwtid', requireAuth, (req, res) => {
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 
+ 
 // server : app.listen "en dernier place"
 app.listen(process.env.PORT, () => {
     console.log(`Listening on port ${process.env.PORT}`);
