@@ -10,7 +10,10 @@
 <!-- npm i -s bcrypt -->
 <!-- npm i -s jsonwebtoken -->
 <!-- npm i -s cookie-parser -->
+<!-- npm i -s multer -> npm i multer@2.0.0-rc.1 -->
 
+<!-- "multer": "^1.4.5-lts.1", -->
+<!-- "multer": "^2.0.0-rc.1", -->
 
 
 <!-- 

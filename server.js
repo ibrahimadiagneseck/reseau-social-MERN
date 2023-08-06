@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
-// jwt
+// jwt : fonction du middleware
 app.get('*', checkUser); // à n'importe quel route, verrifier si l'utilisateur a le token  
 app.get('/jwtid', requireAuth, (req, res) => {
   res.status(200).send(res.locals.user._id)
