@@ -25,6 +25,7 @@
 <!-- 
     .env{
         PORT=5000
+        CLIENT_URL=http://localhost:3000
         DB_USER_PASS=ibrahimadiagneseck:i2b5r1a0h1i9m9a9ss
         TOKEN_SECRET=ibrahimadiagnesecki2b5r1a0h1i9m9a9ibrahimadiagnesecki2b5r1a0h1i9m9a9ibrahimadiagnesecki2b5r1a0h1i9m9a9ss
     }
