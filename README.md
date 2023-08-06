@@ -12,6 +12,9 @@
 <!-- npm i -s cookie-parser -->
 <!-- npm i -s multer -> npm i multer@2.0.0-rc.1 -->
 
+<!-- npx create-react-app client -->
+<!-- npm install -s react-router-dom node-sass @material-ui/core @material-ui/icons -->
+
 <!-- "multer": "^1.4.5-lts.1", -->
 <!-- "multer": "^2.0.0-rc.1", -->
 
